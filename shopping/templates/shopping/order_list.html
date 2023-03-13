@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <title>E-Commerce</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+
+</head>
+<body>
+  <div class="container pt-5">
+    {% extends "base.html" %}
+
+    {% block title %} | My Orders{% endblock title %}
+
+    {% block head %}
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+    </style>
+    {% endblock head %}
+
+    {% block body %}
+             <div class="container mt-5">
+
+                {% if orders %}
+                    <table class="table table-border table-sm">
+                      <tr>
+                        <th>ID</th>
+                        <th>Created At (UTC)</th>
+                        <th>Items</th>
+                        <th>Total Cost in USD</th>
+                      </tr>
+                      {% for order in orders %}
+                      <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.created_at }}</td>
+                        <td>
+                            <ul>
+                              {% for item in order.items.all %}
+                              <li>{{ item.name }}</li>
+                              {% endfor %}
+                            </ul>
+                        </td>
+                        <td>{{ order.total_cost }}</td>
+                      </tr>
+                      {% endfor %}
+                    </table>
+                {% else %}
+
+                    <p>No orders!!  <a class="btn btn-secondary" href="{% url "shopping:purchase" %}">Go shopping..</a></p>
+                {% endif %}
+             </div>
+    {% endblock body %}
+
+
+  </div>
+
+</body>
+
+</html>
